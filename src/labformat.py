@@ -1,4 +1,5 @@
 # -- encoding: utf-8 --
+from __future__ import unicode_literals
 import re
 import copy
 from sys import exit
@@ -11,7 +12,6 @@ def tree_per_word(word, rhythm, tree_init, syllables, poses):
     def get_list(rhythm):
         return tree_init[rhythm_map[rhythm]]
     
-    # print get_list('#4')
     assert rhythm in rhythm_map
     rhythm_list = get_list(rhythm)
 
@@ -26,7 +26,8 @@ def tree_per_word(word, rhythm, tree_init, syllables, poses):
 
     elif rhythm == '#0':
         pre_rhythm = 'syl'
-        for syllable in syllables[0:len(word)/3]:
+        #for syllable in syllables[0:len(word)/3]:
+        for syllable in syllables[0:len(word)]:
             tree_per_word(''.join(syllable), pre_rhythm, tree_init, syllables, poses)
     
     elif rhythm in ['#1', '#2']:
@@ -42,7 +43,7 @@ def tree_per_word(word, rhythm, tree_init, syllables, poses):
         tree_per_word(word, pre_rhythm, tree_init, syllables, poses)
     
     else:
-        print 'error rhythm input'
+        print('error rhythm input')
         exit(-1)
 
     if rhythm == 'ph':
@@ -70,19 +71,21 @@ def tree_per_word(word, rhythm, tree_init, syllables, poses):
 
 def show(tree_list, shift=0):
     for item in tree_list:
-        print '|\t'*shift + str(item.index) + '\t' + item.txt + '\t' + item.rhythm + '\t' + str(item.sons_num) + '\t' + item.pos
+        print ('|\t'*shift + str(item.index) + '\t' + item.txt + '\t' +
+                item.rhythm + '\t' + str(item.sons_num) + '\t' + item.pos)
         show(item.sons, shift + 1)
 
 
 def tree(words, rhythms, syllables, poses, phs_type=None):
     assert len(words) == len(rhythms)
     assert len(words) == len(poses)
-    assert len(''.join(words))/3 == len(syllables)
+    assert len(''.join(words)) == len(syllables)
+    #assert len(''.join(words))/3 == len(syllables)
     tree_init={'assist':{}}
     for key, value in rhythm_map.items():
         tree_init[value]=[]
         tree_init['assist'][value]=None
-    # print tree_init
+    # print(tree_init)
     syllables_copy=copy.deepcopy(syllables)
     poses_copy=copy.deepcopy(poses)
     for word, rhythm in zip(words, rhythms):
@@ -90,7 +93,7 @@ def tree(words, rhythms, syllables, poses, phs_type=None):
     newLab=LabNode(sons=tree_init[rhythm_map['#4']], index=1, rhythm='#5')
     if phs_type:
         newLab.adjust()
-    # print tree_init['rhythm4']
+    # print(tree_init['rhythm4'])
     # show([newLab], 0)
     # show(tree_init['rhythm4'], 0)
     def get_first():
@@ -106,7 +109,6 @@ def tree(words, rhythms, syllables, poses, phs_type=None):
         phone=fphone
         for ptype in phs_type[1:-1]:
             assert phone is not None
-            # print (phone.txt, ptype), 
             if ptype in ['s', 'd']:
                 if ptype == 's':
                     newLab=LabNode(txt='pau', rhythm='ph')
@@ -128,41 +130,22 @@ def tree(words, rhythms, syllables, poses, phs_type=None):
 
     return adjust()
 
-def load_lab(words, rhythms, poses, times, phs_type, lab_file=None):
-    assert len(times) == len(phs_type) + 1
-    syllables = txt2pinyin(''.join(words))
-    phone = tree(words, rhythms, syllables, poses, phs_type)
-    if lab_file:
-        for ph_list in LabGenerator(phone, rhythms, times):
-            print >> lab_file,  ph_list
-    else:
-        for ph_list in LabGenerator(phone, rhythms, times):
-            print ph_list
-
 if __name__ == '__main__':
     #txt='继续#1把#1建设#2有#1中国#1特色#3社会#1主义#1事业#4推向#1前进'
     txt='继续把建设有中国特色社会主义事业推向前进'
     times=[0,  264200,  360650,  492100,  596550,  737200,  774550,  989300,  1048049,  1211600,  1295550,  1417500,  1483700,  1644000,  1685300,  1719600,  1894300,  1933800,  2065200,  2156650,  2279300,  2370850,  2556100,  2583600,  2703700,  2785200,  2873050,  2992500,  3035150,  3140490,  3198140,  3284050,  3415750,  3507100,  3622700,  3766000,  3862800,  3984500,  4126900,  4213200,  4408500,  4527250,  4703800,  4757350,  4931700,  52253061]
     phs_type=['s',  'a',  'b',  'a',  'b',  'a',  'b',  'a',  'b',  'a',  'b',  'a',  'b',  'd',  'a',  'b',  'a',  'b',  'a',  'b',  'a',  'b',  'd',  'a',  'b',  'a',  'b',  'a',  'b',  'a',  'b',  'a',  'b',  'a',  'b',  's',  'a',  'b',  'a',  'b',  'a',  'b',  'a',  'b',  's']
     words=re.split('#\d', txt)
-    # print ' '.join(words)
     syllables=txt2pinyin(''.join(words))
-    # print syllables
     rhythms=re.findall('#\d', txt)
     rhythms.append('#4')
-    #print ' '.join(rhythms)
-    print ' '.join(words)
-    print rhythms
-    print syllables
+    print(' '.join(words))
+    print(rhythms)
+    print(syllables)
     poses=['n']*len(words)
     phone=tree(words, rhythms, syllables, poses, phs_type)
-    # while phone:
-    #    print phone.txt, 
-    #    phone=phone.rbrother
-    #print
-    #print syllables
 
     for ph_list in LabGenerator(phone, rhythms, times):
-        print ph_list
+        print(ph_list)
 
 

@@ -1,6 +1,9 @@
 # -- encoding: utf-8 --
+from __future__ import unicode_literals
 import copy
 from enum import Enum
+from functools import reduce
+
 class LabNode(object):
     def __init__(self):
         self.lbrother=None
@@ -28,7 +31,7 @@ class LabNode(object):
     def adjust(self):
         def setfather(lab):
             lab.father=self
-        map(setfather, self.sons)
+        list(map(setfather, self.sons))
         self.sons_num=len(self.sons)
         if self.rhythm.startswith('#') and self.rhythm!='#0':
             self.txt=''.join(son.txt for son in self.sons)
@@ -63,12 +66,9 @@ class LabGenerator(object):
             self.f()
             lablist=[]
             for lab in Lab:
-                # print lab
                 lablist.extend(self.dict[lab])
             assert len(lablist)==len(formation)
-            # print lablist
             yield reduce(lambda labf1, labf2:labf1+labf2, [lab+form for lab, form in zip(lablist, formation)])
-            # yield self.dict
             self.phone=self.phone.rbrother
 
     def t(self):
@@ -136,14 +136,14 @@ class LabGenerator(object):
             self.dict[Lab.b][3]=str(gfather.sons_num-father.index+1)
             # 韵律词层
             ggfather=gfather.father
-            total=len(ggfather.txt)/3
-            order=sum(len(son.txt)/3 for son in ggfather.sons[0:gfather.index-1])+father.index
+            total=len(ggfather.txt)//3
+            order=sum(len(son.txt)//3 for son in ggfather.sons[0:gfather.index-1])+father.index
             self.dict[Lab.b][4]=str(order)
             self.dict[Lab.b][5]=str(total-order+1)
             # 韵律短语层
             gggfather=ggfather.father
-            total=len(gggfather.txt)/3
-            order=sum(len(son.txt)/3 for son in gggfather.sons[0:ggfather.index-1])+order
+            total=len(gggfather.txt)//3
+            order=sum(len(son.txt)//3 for son in gggfather.sons[0:ggfather.index-1])+order
             self.dict[Lab.b][6]=str(order)
             self.dict[Lab.b][7]=str(total-order+1)
             left=0
@@ -151,7 +151,7 @@ class LabGenerator(object):
                 left=left+1
                 father=father.lbrother
             self.dict[Lab.b][0]=str(left)
-            self.dict[Lab.b][1]=str(len(gggfather.father.father.txt)/3-left-1)
+            self.dict[Lab.b][1]=str(len(gggfather.father.father.txt)//3-left-1)
         
     def c(self):
         """
@@ -167,13 +167,13 @@ class LabGenerator(object):
         if father:
             gfather=father.father
             self.dict[Lab.c][1]=gfather.pos
-            self.dict[Lab.c][4]=str(len(gfather.txt)/3)
+            self.dict[Lab.c][4]=str(len(gfather.txt)//3)
             if gfather.lbrother:
                 self.dict[Lab.c][0]=gfather.lbrother.pos
-                self.dict[Lab.c][3]=str(len(gfather.lbrother.txt)/3)
+                self.dict[Lab.c][3]=str(len(gfather.lbrother.txt)//3)
             if gfather.rbrother:
                 self.dict[Lab.c][2]=gfather.rbrother.pos
-                self.dict[Lab.c][5]=str(len(gfather.rbrother.txt)/3)
+                self.dict[Lab.c][5]=str(len(gfather.rbrother.txt)//3)
 
     def d(self):
         """
@@ -189,11 +189,11 @@ class LabGenerator(object):
         if father:
             # 韵律词层
             gfather=father.father.father
-            self.dict[Lab.d][1]=str(len(gfather.txt)/3)
+            self.dict[Lab.d][1]=str(len(gfather.txt)//3)
             if gfather.lbrother:
-                self.dict[Lab.d][0]=str(len(gfather.lbrother.txt)/3)
+                self.dict[Lab.d][0]=str(len(gfather.lbrother.txt)//3)
             if gfather.rbrother:
-                self.dict[Lab.d][2]=str(len(gfather.rbrother.txt)/3)
+                self.dict[Lab.d][2]=str(len(gfather.rbrother.txt)//3)
             self.dict[Lab.d][3]=str(gfather.index)
             self.dict[Lab.d][4]=str(gfather.father.sons_num-gfather.index+1)
 
@@ -213,13 +213,13 @@ class LabGenerator(object):
         if father:
             # 韵律短语层
             gfather=father.father.father.father
-            self.dict[Lab.e][1]=str(len(gfather.txt)/3)
+            self.dict[Lab.e][1]=str(len(gfather.txt)//3)
             self.dict[Lab.e][4]=str(gfather.sons_num)
             if gfather.lbrother:
-                self.dict[Lab.e][0]=str(len(gfather.lbrother.txt)/3)
+                self.dict[Lab.e][0]=str(len(gfather.lbrother.txt)//3)
                 self.dict[Lab.e][3]=str(gfather.lbrother.sons_num)
             if gfather.rbrother:
-                self.dict[Lab.e][2]=str(len(gfather.rbrother.txt)/3)
+                self.dict[Lab.e][2]=str(len(gfather.rbrother.txt)//3)
                 self.dict[Lab.e][5]=str(gfather.rbrother.sons_num)
             total=sum(son.sons_num for son in gfather.father.father.sons)
             order=sum(son.sons_num for son in gfather.father.father.sons[0:gfather.father.index-1])+gfather.index
@@ -239,7 +239,7 @@ class LabGenerator(object):
         if father:
             # 句子层
             gfather=father.father.father.father.father.father
-            self.dict[Lab.f][1]=str(len(gfather.txt)/3)
+            self.dict[Lab.f][1]=str(len(gfather.txt)//3)
             self.dict[Lab.f][2]=str(len(self.rhythms))
             temp=[x>='#1' for x in self.rhythms]
             self.dict[Lab.f][3]=str(sum(map(int, temp)))

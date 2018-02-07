@@ -1,4 +1,5 @@
 # -*- encoding: UTF-8 -*-
+from __future__ import unicode_literals
 import sys
 import re
 from pypinyin import pinyin, Style
@@ -35,22 +36,28 @@ def seprate_syllabel(syllabel):
     '''seprate syllable to consonant + ' ' + vowel '''
     assert syllabel[-1].isdigit()
     if syllabel[0:2] in consonant_list:
-        return syllabel[0:2].encode('utf-8'),syllabel[2:].encode('utf-8')
+        #return syllabel[0:2].encode('utf-8'),syllabel[2:].encode('utf-8')
+        return syllabel[0:2], syllabel[2:]
     elif syllabel[0] in consonant_list:
-        return syllabel[0].encode('utf-8'),syllabel[1:].encode('utf-8')
+        #return syllabel[0].encode('utf-8'),syllabel[1:].encode('utf-8')
+        return syllabel[0], syllabel[1:]
     else:
-        return (syllabel.encode('utf-8'),)
+        #return (syllabel.encode('utf-8'),)
+        return (syllabel,)
 
 
 def txt2pinyin(txt):
     phone_list = []
+    '''
     if isinstance(txt, str):
         pinyin_list = pinyin(unicode(txt,'utf-8'), style = Style.TONE3)
     elif isinstance(txt, unicode):
         pinyin_list = pinyin(txt, style = Style.TONE3)
     else:
         print('error: unsupport coding form')
+    '''
 
+    pinyin_list = pinyin(txt, style = Style.TONE3)
     for item in pinyin_list:
         phone_list.append(seprate_syllabel(pinyinformat(item[0])))
     return phone_list

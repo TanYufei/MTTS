@@ -20,7 +20,7 @@ Mandarin/Chinese Text to Speech based on statistical parametric speech synthesis
 
 ## 使用指南
 ### 1.环境与依赖
-使用python2.7，需要安装`pip install jieba pypinyin`
+兼容python2.7-3.6，需要安装`pip install jieba pypinyin`
 ### 2.txt2label
 
 lab, sfs 样例文件参见example_file文件夹

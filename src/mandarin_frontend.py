@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 # -*- encoding:utf-8 -*-
 
+from __future__ import unicode_literals
 import re
 from jieba import posseg
 from labcnp import LabGenerator
@@ -15,8 +16,10 @@ def _adjust(prosody_txt):
     words = []
     poses = []
     for word, pos in posseg.cut(txt):
-        words.append(word.encode('utf-8'))
-        poses.append(pos[0].encode('utf-8'))
+        #words.append(word.encode('utf-8'))
+        words.append(word)
+        #poses.append(pos[0].encode('utf-8'))
+        poses.append(pos[0])
     index = 0
     length = len(prosody_words[index])
     i = 0
@@ -77,8 +80,9 @@ def txt2label(txt, wavfile=None, sfsfile=None, style='default'):
 
     # del all Chinese punctuation 
     punctuation = "·！？｡＂＃＄％＆＇（）＊＋，－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃《》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘’‛“”„‟…‧﹏."
-    punctuation  = punctuation.decode("utf-8")
-    txt = re.sub(r'[%s]'%punctuation, '', txt.decode('utf-8')).encode('utf-8')
+    #punctuation  = punctuation.decode("utf-8")
+    txt = re.sub(r'[%s]'%punctuation, '', txt)
+    #txt = re.sub(r'[%s]'%punctuation, '', txt.decode('utf-8')).encode('utf-8')
 
     # If txt with prosody mark, use prosody mark,
     # else use jieba position segmetation
@@ -88,11 +92,14 @@ def txt2label(txt, wavfile=None, sfsfile=None, style='default'):
         words = []
         poses = []
         for word, pos in posseg.cut(txt):
-            words.append(word.encode('utf-8'))
-            poses.append(pos[0].encode('utf-8'))
+            #words.append(word.encode('utf-8'))
+            words.append(word)
+            #poses.append(pos[0].encode('utf-8'))
+            poses.append(pos[0])
         rhythms = ['#0']*(len(words)-1)
         rhythms.append('#4')
 
+    #syllables = txt2pinyin((''.join(words)).decode('utf-8'))
     syllables = txt2pinyin(''.join(words))
 
     phone_num = 0
@@ -118,7 +125,7 @@ def txt2label(txt, wavfile=None, sfsfile=None, style='default'):
         phs_type.append('s')
         times = [0] * (phone_num + 3)
 
-    '''
+#    '''
     for item in words:
         print(item)
 
@@ -128,8 +135,15 @@ def txt2label(txt, wavfile=None, sfsfile=None, style='default'):
     print (poses)
     print (phs_type)
 
-    '''
+#    '''
 
+    #poses.append(pos[0].encode('utf-8'))
+    #words.append(word.encode('utf-8'))
+    #words_utf8 = [item.encode('utf-8') for item in words]
+    #poses_utf8 = [item.encode('utf-8') for item in poses]
+    #print(words_utf8)
+    #print(poses_utf8)
+    #phone = tree(words_utf8, rhythms, syllables, poses_utf8, phs_type)
     phone = tree(words, rhythms, syllables, poses, phs_type)
     return LabGenerator(phone, rhythms, times)
 
@@ -154,7 +168,10 @@ def force_align(txt, wavfile):
 
 if __name__ == '__main__':
     # 用法举例
-    result = txt2label('向香港特别行政区同胞澳门和台湾同胞海外侨胞')
+    input_txt = '向香港特别行政区同胞澳门和台湾同胞海外侨胞'
+    print(type(input_txt))
+    result = txt2label(input_txt)
+
 
     '''
     带韵律标记的文本也被支持
