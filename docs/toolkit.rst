@@ -51,7 +51,7 @@ World
 4. HTK
 ---------------------------------------------
 
-HMM工具包（HMM Tool Kit，HTK）是由剑桥大学工程学院机器学习实验室开发的用于自动语音识别的工具包[57]。其中包括基于K均值的HMM模型初始化（HInit）、HMM孤立参数估计（HRest）、HMM上下文参数估计（HERest）和模型状态聚类与模型编辑（HHEd）等工具。在此基础上，Tokuda实验室将HTK改造为基于HSS的合成系统（HMM-based Speech Synthesis System，HTS），主要的工作包括：用HSMM代替HMM实现显式时长建模与参数估计、基于最小描述长度（Minimum Description Length，MDL）的上下文聚类等。本文中使用由HTK版本3.4.1改造的HTS版本2.2进行短时声学参数建模[58]。[5]
+HMM工具包（HMM Tool Kit，HTK）(http://htk.eng.cam.ac.uk/) 是由剑桥大学工程学院机器学习实验室开发的用于自动语音识别的工具包。其中包括基于K均值的HMM模型初始化（HInit）、HMM孤立参数估计（HRest）、HMM上下文参数估计（HERest）和模型状态聚类与模型编辑（HHEd）等工具。在此基础上，Tokuda实验室将HTK改造为基于HSS的合成系统（HMM-based Speech Synthesis System，HTS），主要的工作包括：用HSMM代替HMM实现显式时长建模与参数估计、基于最小描述长度（Minimum Description Length，MDL）的上下文聚类等。本文中使用由HTK版本3.4.1改造的HTS版本2.2进行短时声学参数建模[58]。[5]
 
 请参考文献[24]中的内容对HTK进行补充
 
@@ -61,19 +61,12 @@ HMM工具包（HMM Tool Kit，HTK）是由剑桥大学工程学院机器学习�
 这里有与中文语言处理相关的Python package
 https://pypi.python.org/pypi?:action=browse&show=all&c=98&c=489
 
-6. 待整理的工具包
+6. 其他
 ----------------------------------------------------------
-* HTK3.4&HDecode 3.4	用于语音处理的主要工具包，包含丰富的语音处理工具(http://htk.eng.cam.ac.uk/) 
 * HTS2.1	基于HTK开发的语音合成工具
-* hts_engine_API-1.05	基于HTS的语音合成器，利用合成参数来产生语音
-* SPTK-3.8	用于提取语音信号频谱参数（如MFCC系数）的语音信号处理工具
+* SPTK-3.8	用于提取语音信号频谱参数（如MFCC系数）的语音信号处理工具, 通常用语将STRAIGHT合成器中的谱参数(维数较高)转换成转换为 HTS训练中可用的 mgc(Mel-generalized cepstral)参数,
 * snack	用于提取语音信号基频参数（f0系数）的语音信号处理工具
 * Praat 4.6	用于语音文件标注的专业语音处理软件doing phonetics by computer [OL] .http://www.praat.org/ .2012
 * FFmpeg	用于转换语音文件格式（如采样率、声道等）的开源软件
 * SPPAS16	用于帮助Praat标注和处理的辅助标注软件
 * Festvox(https://festvox.org)
-* Merlin
-
-SPTK 
-
-通过 STRAIGHT 合成器提取的谱参数具有独特特征(维数较高), 所以它不能直接用于 HTS 系统中,需要使用 SPTK 工具将其特征参数降维, 转换为 HTS训练中可用的 mgc(Mel-generalized cepstral)参数,

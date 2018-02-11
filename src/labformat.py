@@ -26,7 +26,6 @@ def tree_per_word(word, rhythm, tree_init, syllables, poses):
 
     elif rhythm == '#0':
         pre_rhythm = 'syl'
-        #for syllable in syllables[0:len(word)/3]:
         for syllable in syllables[0:len(word)]:
             tree_per_word(''.join(syllable), pre_rhythm, tree_init, syllables, poses)
     
@@ -54,7 +53,6 @@ def tree_per_word(word, rhythm, tree_init, syllables, poses):
         tree_init['assist'][rhythm_map[pre_rhythm]] = get_list(pre_rhythm)[-1]
         tree_init[rhythm_map[pre_rhythm]] = []
         newLab.adjust()
-        # newLab.txt=word
     
     if rhythm == '#0':
         newLab.pos=poses[0][0]
@@ -80,7 +78,6 @@ def tree(words, rhythms, syllables, poses, phs_type=None):
     assert len(words) == len(rhythms)
     assert len(words) == len(poses)
     assert len(''.join(words)) == len(syllables)
-    #assert len(''.join(words))/3 == len(syllables)
     tree_init={'assist':{}}
     for key, value in rhythm_map.items():
         tree_init[value]=[]

@@ -1,6 +1,5 @@
 Merlin简要使用手册
 ==============================
-关于merlin的详细解读，可参考candlewill的gist https://gist.github.com/candlewill?direction=asc&sort=updated
 
 Merlin的简要介绍
 Merlin不是一个完整的TTS系统，它只是提供了TTS核心的声学建模模块（声学和语音特征归一化，神经网络声学模型训练和生成）。

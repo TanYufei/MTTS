@@ -1,21 +1,37 @@
-# MTTS基于Merlin的中文语音合成
+# MTTS基于Merlin的中文语音合成Demo
 
 **ON_DEVELOPMENT**
 
 Mandarin/Chinese Text to Speech based on statistical parametric speech synthesis using merlin toolkit
 
-欢迎做语音合成的伙伴加我微信`explorerrr`交流探讨(之前微信号打错了..)
+此项目为我本科毕业设计中的一部分
+
+欢迎做语音合成的伙伴加我微信`explorerrr`交流探讨
 
 [中文语音合成手册（整理中）](http://mtts.readthedocs.io/zh_CN/latest/#)  
 [中文语音合成相关思维导图（更新中）](http://naotu.baidu.com/file/efd4f580e80ed57c7bef115f2d7d5813?token=9b6dd5d2e4bc5b95)  
 
-目前实现了简单的自动文本转label程序，设计了上下文相关标注格式和对应的问题集，具体见misc文件夹。
-
-如果你想要实现中文语音合成，需要有自己的语料库（目前网络上没有开源的中文语音合成语料库）——文本，音频，韵律标注（也可以不要），音素发音时长标注，然后生成Label文件，在merlin下训练即可
+## 合成语音效果
 
 目前500短句训练的效果见example_file下的音频文件
 
-## TODO List
+## 如何复现
+
+首先你需要一个中文语料库...目前网络上没有开源的中文语音合成语料库。 
+
+得到文本和音频后，你需要做文本音频的对齐forced alignment，得到音素的发音时长标注，韵律标注是可选项。
+根据本项目代码生成Label文件，在爱丁堡大学的语音合成开源项目[merlin](https://github.com/CSTR-Edinburgh/merlin)下进行训练，具体过程参见 [Mandarin_Voice](https://github.com/Jackiexiao/MTTS/tree/master/egs/mandarin_voice/s1)
+
+## 目前进展
+
+目前实现了简单的自动文本转label程序，设计了上下文相关标注格式和对应的问题集，具体见misc文件夹。目前仅能处理纯中文文本，不可包含阿拉伯数字，英文字母等非中文文本
+
+## 上下文相关标注和问题集设计规则
+[上下文相关标注](https://github.com/Jackiexiao/MTTS/blob/master/misc/mandarin_label.md)
+[问题集](https://github.com/Jackiexiao/MTTS/blob/master/misc/questions-mandarin.hed)
+[问题集设计规则](https://github.com/Jackiexiao/MTTS/blob/master/docs/mddocs/question.md)
+
+### TODO List
 - [ ] Forced Alignment 根据音频文件和文本生成发音时长标注
 
 ## 使用指南

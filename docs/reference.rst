@@ -31,6 +31,3 @@
 * [26] 中文语音合成系统中的文本正则化和韵律结构预测方法的研究
 * [27] 面向语音合成的文本处理技术的改进
 * [28] HMM-based Mandarin Singing Voice Synthesis Using Tailored Synthesis Units and Question Sets
-
-与声母韵母划分特征相关文章
-[9]吴宗济，林茂灿，等，实验语音学教程高等教育出版社.1989

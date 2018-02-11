@@ -20,10 +20,6 @@ DeepVoice 3
 
 char2wav
 ------------------------------------------------
+see:
 
-todo
-
-voice loop
-------------------------------------------------
-
-todo
+https://github.com/sotelo/parrot

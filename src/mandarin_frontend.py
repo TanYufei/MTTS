@@ -16,9 +16,7 @@ def _adjust(prosody_txt):
     words = []
     poses = []
     for word, pos in posseg.cut(txt):
-        #words.append(word.encode('utf-8'))
         words.append(word)
-        #poses.append(pos[0].encode('utf-8'))
         poses.append(pos[0])
     index = 0
     length = len(prosody_words[index])
@@ -92,14 +90,11 @@ def txt2label(txt, wavfile=None, sfsfile=None, style='default'):
         words = []
         poses = []
         for word, pos in posseg.cut(txt):
-            #words.append(word.encode('utf-8'))
             words.append(word)
-            #poses.append(pos[0].encode('utf-8'))
             poses.append(pos[0])
         rhythms = ['#0']*(len(words)-1)
         rhythms.append('#4')
 
-    #syllables = txt2pinyin((''.join(words)).decode('utf-8'))
     syllables = txt2pinyin(''.join(words))
 
     phone_num = 0
@@ -125,7 +120,7 @@ def txt2label(txt, wavfile=None, sfsfile=None, style='default'):
         phs_type.append('s')
         times = [0] * (phone_num + 3)
 
-#    '''
+    '''
     for item in words:
         print(item)
 
@@ -135,15 +130,7 @@ def txt2label(txt, wavfile=None, sfsfile=None, style='default'):
     print (poses)
     print (phs_type)
 
-#    '''
-
-    #poses.append(pos[0].encode('utf-8'))
-    #words.append(word.encode('utf-8'))
-    #words_utf8 = [item.encode('utf-8') for item in words]
-    #poses_utf8 = [item.encode('utf-8') for item in poses]
-    #print(words_utf8)
-    #print(poses_utf8)
-    #phone = tree(words_utf8, rhythms, syllables, poses_utf8, phs_type)
+    '''
     phone = tree(words, rhythms, syllables, poses, phs_type)
     return LabGenerator(phone, rhythms, times)
 

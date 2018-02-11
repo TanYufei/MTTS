@@ -2,3 +2,5 @@
 data/*
 __pycache__
 src/generate.py
+forced_alignment/*
+.ipynb_checkpoints/
