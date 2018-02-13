@@ -17,9 +17,9 @@ Mandarin/Chinese Text to Speech based on statistical parametric speech synthesis
 
 ## 如何复现
 
-首先你需要一个中文语料库...目前网络上没有开源的中文语音合成语料库。 
+首先你需要一个中文语料库...目前网络上没有开源的中文语音合成语料库。中文语料库中至少需要包含文本和音频。
 
-得到文本和音频后，你需要做文本音频的对齐forced alignment，得到音素的发音时长标注，韵律标注是可选项。
+得到文本和音频后，你需要做文本音频的对齐forced alignment(见下面的说明)，得到音素的发音时长标注，韵律标注是可选项。
 根据本项目代码生成Label文件，在爱丁堡大学的语音合成开源项目[merlin](https://github.com/CSTR-Edinburgh/merlin)下进行训练，具体过程参见 [Mandarin_Voice](https://github.com/Jackiexiao/MTTS/tree/master/egs/mandarin_voice/s1)
 
 ## 目前进展
@@ -32,7 +32,7 @@ Mandarin/Chinese Text to Speech based on statistical parametric speech synthesis
 [问题集设计规则](https://github.com/Jackiexiao/MTTS/blob/master/docs/mddocs/question.md)
 
 ### TODO List
-- [ ] Forced Alignment 根据音频文件和文本生成发音时长标注
+- [x] Forced Alignment 根据音频文件和文本生成发音时长标注
 
 ## 使用指南
 ### 1.环境与依赖
@@ -72,6 +72,9 @@ for line in result:
 
 ### 3.merlin脚本
 将egs/mandarin_voice复制到merlin对应文件夹下，然后根据egs/mandarin_voice/s1/README.md进行配置即可
+
+### 4.forced-alignment
+可使用[Montreal-Forced-Aligner](https://github.com/MontrealCorpusTools/Montreal-Forced-Aligner)进行中文的音频文本对齐，这里提供了所需要的 [中文字典文件](https://github.com/Jackiexiao/MTTS/blob/master/misc/mandarin-for-montreal-forced-aligner.lexicon)
 
 
 ## 一些说明
