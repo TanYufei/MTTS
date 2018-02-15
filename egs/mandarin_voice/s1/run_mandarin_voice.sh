@@ -6,7 +6,7 @@ voice_name="mandarin_voice"
 
 # train tts system
 if [ "$train_tts" = true ]; then
-    # step 1: run setup
+    # step 1: run setup and check data
     ./01_setup.sh $voice_name
 
     # step 2: prepare labels

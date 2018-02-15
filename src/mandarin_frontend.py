@@ -134,25 +134,6 @@ def txt2label(txt, wavfile=None, sfsfile=None, style='default'):
     phone = tree(words, rhythms, syllables, poses, phs_type)
     return LabGenerator(phone, rhythms, times)
 
-
-def force_align(txt, wavfile):
-    '''Return forced alignment of wav.
-    
-    Return:
-        A list of forced alignment information. For example:
-        ['239100 s', 
-        '313000 a', 
-        '400000 b' 
-        '480000 s' 
-        ......]
-        a stands for consonant
-        b stands for vowel
-        d stands for silence that is shorter than 100ms
-        s stands for silence that is longer than 100ms and the start && end
-        silence of each sentence
-    '''
-    pass
-
 if __name__ == '__main__':
     # 用法举例
     input_txt = '向香港特别行政区同胞澳门和台湾同胞海外侨胞'

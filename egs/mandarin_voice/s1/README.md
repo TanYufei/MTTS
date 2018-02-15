@@ -11,6 +11,7 @@
 
 (2) modify params as per your own data in 01_setup.sh file, especially
 
+* Voice Name
 * QuestionFile
 * Labels
 * SamplingFreq
@@ -32,5 +33,5 @@ default setting is
 (3) then run
 
 ```
-./run_king_voice.sh
+./run_mandarin_voice.sh
 ```

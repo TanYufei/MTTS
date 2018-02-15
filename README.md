@@ -74,7 +74,15 @@ for line in result:
 将egs/mandarin_voice复制到merlin对应文件夹下，然后根据egs/mandarin_voice/s1/README.md进行配置即可
 
 ### 4.forced-alignment
-可使用[Montreal-Forced-Aligner](https://github.com/MontrealCorpusTools/Montreal-Forced-Aligner)进行中文的音频文本对齐，这里提供了所需要的 [中文字典文件](https://github.com/Jackiexiao/MTTS/blob/master/misc/mandarin-for-montreal-forced-aligner.lexicon)
+可使用[Montreal-Forced-Aligner](https://github.com/MontrealCorpusTools/Montreal-Forced-Aligner)进行中文的音频文本对齐。
+1. 如果你想使用mfa(montreal-forced-aligner)已经训练好的声学模型进行align，这里提供了所需要的 [中文字典文件](https://github.com/Jackiexiao/MTTS/blob/master/misc/mandarin-for-montreal-forced-aligner-pre-trained-model.lexicon)
+2. 由于mfa自带的声学模型音素集和本项目使用的音素集不同，想要通过本项目
+合成label需要使用本项目的音素集训练声学模型并进行align。
+所需要的[字典文件](https://github.com/Jackiexiao/MTTS/blob/master/misc/mandarin_mtts.lexicon)
+准备必要的数据文件后，在montreal-forced-aligner目录运行命令，详见mfa官方文档，dictionary_path改成本项目字典文件所在路径
+`bin/mfa_train_and_align corpus_directory dictionary_path output_directory [-o train-model.zip]`
+3. 通过forced align得到textgrid文件后，通过src/forced_align.py
+   将textgrid转化为本项目使用的sfs文件，具体见代码
 
 
 ## 一些说明

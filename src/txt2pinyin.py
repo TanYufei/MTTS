@@ -17,11 +17,18 @@ def pinyinformat(syllabel):
                       'yuan':'yvan', 'yue':'yve', 'yun':'yvn',
                       'iu':'iou', 'ui':'uei', 'un':'uen'}
     translate_dict_more = {'ya':'yia', 'ye':'yie', 'yao':'yiao',
-                           'you':'yiou', 'yan':'ian', 'yin':'yin',
+                           'you':'yiou', 'yan':'yian', 'yin':'yin',
                            'yang':'yiang', 'ying':'ying', 'yong':'yiong',
                            'wa':'wua', 'wo':'wuo', 'wai':'wuai',
                            'wei':'wuei', 'wan':'wuan', 'wen':'wuen',
                            'weng':'wueng', 'wang':'wuang'}
+    translate_dict_less = {'ya':'ia', 'ye':'ie', 'yao':'iao',
+                           'you':'iou', 'yan':'ian', 'yin':'in',
+                           'yang':'iang', 'ying':'ing', 'yong':'iong',
+                           'wa':'ua', 'wo':'uo', 'wai':'uai',
+                           'wei':'uei', 'wan':'uan', 'wen':'uen',
+                           'weng':'ueng', 'wang':'uang'}
+ 
     #必须先替代yun为yvn，然后再是替代un为uen
     for key, value in translate_dict.items():
         syllabel = syllabel.replace(key, value)
