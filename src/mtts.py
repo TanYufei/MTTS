@@ -149,8 +149,12 @@ def main():
                         help="Full path to output directory, will be created if it doesn't exist")
     args = parser.parse_args()
     txtlines = _txt_preprocess(args.txtfile)
+
+    output_path = os.path.abspath(args.output_path)
+    wav_dir_path = os.path.abspath(args.wav_dir_path)
+
     os.system('mkdir -p %s' % args.output_path)
-    generate_label(txtlines, args.wav_dir_path, args.output_path)
+    generate_label(txtlines, wav_dir_path, output_path)
     # todo 把相对路径转换成绝对路径..
 
 if __name__ == '__main__':
