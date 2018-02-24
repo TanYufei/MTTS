@@ -30,7 +30,7 @@ Mandarin/Chinese Text to Speech based on statistical parametric speech synthesis
 ### 1.环境与依赖
 * 环境:python3.6
 * 安装: `sudo ./tools/install_mtts.sh`
-* 使用方法: `python src/mtts.py txtfile wav_directory_path output_directory_path` (相对路径或者绝对路径)
+* 使用方法: 进入MTTS/src文件夹 `python mtts.py txtfile wav_directory_path output_directory_path` (相对路径或者绝对路径)
 * 结果: 生成label和forced align的textgrid文件在output_directory_path中，然后使用merlin即可合成语音，具体过程参见 [Mandarin_Voice](https://github.com/Jackiexiao/MTTS/tree/master/egs/mandarin_voice/s1)
 * 注意:目前仅能处理纯中文文本，不可包含阿拉伯数字，英文字母等非中文文本
 

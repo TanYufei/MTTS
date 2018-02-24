@@ -155,7 +155,6 @@ def main():
 
     os.system('mkdir -p %s' % args.output_path)
     generate_label(txtlines, wav_dir_path, output_path)
-    # todo 把相对路径转换成绝对路径..
 
 if __name__ == '__main__':
     main()
