@@ -5,3 +5,5 @@ src/generate.py
 forced_alignment/*
 utils/*
 .ipynb_checkpoints/
+tools/montreal-forced-aligner_linux.tar.gz
+tools/montreal-forced-aligner

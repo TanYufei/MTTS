@@ -17,27 +17,33 @@ Mandarin/Chinese Text to Speech based on statistical parametric speech synthesis
 
 ## 如何复现
 
-首先你需要一个中文语料库...目前网络上没有开源的中文语音合成语料库。中文语料库中至少需要包含文本和音频。
+首先你需要一个中文语料库...目前网络上没有开源的中文语音合成语料库。中文语料库中至少需要包含文本和音频，当然你也可以使用thchs30中的数据，但是单个人的数据量太少，不足以合成优质的语音。
 
-得到文本和音频后，你需要做文本音频的对齐forced alignment(见下面的说明)，得到音素的发音时长标注，韵律标注是可选项。
-根据本项目代码生成Label文件，在爱丁堡大学的语音合成开源项目[merlin](https://github.com/CSTR-Edinburgh/merlin)下进行训练，具体过程参见 [Mandarin_Voice](https://github.com/Jackiexiao/MTTS/tree/master/egs/mandarin_voice/s1)
-
-## 目前进展
-
-目前实现了简单的自动文本转label程序，设计了上下文相关标注格式和对应的问题集，具体见misc文件夹。目前仅能处理纯中文文本，不可包含阿拉伯数字，英文字母等非中文文本
+得到文本和音频(韵律标注是可选项)后， 根据本项目代码生成Label文件，在爱丁堡大学的语音合成开源项目[merlin](https://github.com/CSTR-Edinburgh/merlin)下进行训练，具体过程参见 [Mandarin_Voice](https://github.com/Jackiexiao/MTTS/tree/master/egs/mandarin_voice/s1)
 
 ## 上下文相关标注和问题集设计规则
-[上下文相关标注](https://github.com/Jackiexiao/MTTS/blob/master/misc/mandarin_label.md)
-[问题集](https://github.com/Jackiexiao/MTTS/blob/master/misc/questions-mandarin.hed)
-[问题集设计规则](https://github.com/Jackiexiao/MTTS/blob/master/docs/mddocs/question.md)
-
-### TODO List
-- [x] Forced Alignment 根据音频文件和文本生成发音时长标注
+* [上下文相关标注](https://github.com/Jackiexiao/MTTS/blob/master/misc/mandarin_label.md)
+* [问题集](https://github.com/Jackiexiao/MTTS/blob/master/misc/questions-mandarin.hed)
+* [问题集设计规则](https://github.com/Jackiexiao/MTTS/blob/master/docs/mddocs/question.md)
 
 ## 使用指南
 ### 1.环境与依赖
-兼容python2.7-3.6，需要安装`pip install jieba pypinyin`
-### 2.txt2label
+环境:python3.6
+安装: `sudo ./tools/install_mtts.sh`
+使用方法: `python src/mtts.py txtfile wav_directory_path output_directory_path`
+结果: 生成label和forced align的textgrid文件在output_directory_path中，然后使用merlin即可合成语音，具体过程参见 [Mandarin_Voice](https://github.com/Jackiexiao/MTTS/tree/master/egs/mandarin_voice/s1)
+注意:目前仅能处理纯中文文本，不可包含阿拉伯数字，英文字母等非中文文本
+
+txtfile文件内容（左边编号，右边纯中文文本，中间以空格隔开）
+```
+A_01 这是一段文本
+A_02 这是第二段文本
+```
+wav_directory（包含wav文件，文件命名需对应文本编号，采样率大于等于16khz）  
+--A_01.wav  
+--A_02.wav  
+
+### 2.txt2label.py的说明
 
 lab, sfs 样例文件参见example_file文件夹
 
@@ -74,16 +80,9 @@ for line in result:
 将egs/mandarin_voice复制到merlin对应文件夹下，然后根据egs/mandarin_voice/s1/README.md进行配置即可
 
 ### 4.forced-alignment
-可使用[Montreal-Forced-Aligner](https://github.com/MontrealCorpusTools/Montreal-Forced-Aligner)进行中文的音频文本对齐。
-1. 如果你想使用mfa(montreal-forced-aligner)已经训练好的声学模型进行align，这里提供了所需要的 [中文字典文件](https://github.com/Jackiexiao/MTTS/blob/master/misc/mandarin-for-montreal-forced-aligner-pre-trained-model.lexicon)
-2. 由于mfa自带的声学模型音素集和本项目使用的音素集不同，想要通过本项目
-合成label需要使用本项目的音素集训练声学模型并进行align。
-所需要的[字典文件](https://github.com/Jackiexiao/MTTS/blob/master/misc/mandarin_mtts.lexicon)
-准备必要的数据文件后，在montreal-forced-aligner目录运行命令，详见mfa官方文档，dictionary_path改成本项目字典文件所在路径
-`bin/mfa_train_and_align corpus_directory dictionary_path output_directory [-o train-model.zip]`
-3. 通过forced align得到textgrid文件后，通过src/forced_align.py
-   将textgrid转化为本项目使用的sfs文件，具体见代码
-
+本项目使用[Montreal-Forced-Aligner](https://github.com/MontrealCorpusTools/Montreal-Forced-Aligner)进行中文的音频文本对齐。
+1. 本项目Forced Align声学模型的训练使用了thchs30数据库，见misc/thchs30.zip，以及[字典文件](https://github.com/Jackiexiao/MTTS/blob/master/misc/mandarin_mtts.lexicon)
+2. 如果你想使用mfa(montreal-forced-aligner)已经训练好的声学模型进行align，这里提供了所需要的 [中文字典文件](https://github.com/Jackiexiao/MTTS/blob/master/misc/mandarin-for-montreal-forced-aligner-pre-trained-model.lexicon)
 
 ## 一些说明
 ### sfs文件
@@ -95,8 +94,7 @@ for line in result:
 a stands for consonant  
 b stands for vowel  
 d stands for silence that is shorter than 100ms  
-s stands for silence that is longer than 100ms and the start && end  
-silence of each sentence  
+s stands for silence that is longer than 100ms and the start && end silence of each sentence  
  
 ### 韵律标注
 代码中#0表示词语的边界，#1表示韵律词，#2表示重音，#3表示韵律短语，#4表示语调短语。本项目规定词语比韵律词小，代码里自动进行了调整。当不输入韵律时也能够生成可用的label，不过合成的语音韵律感不强
