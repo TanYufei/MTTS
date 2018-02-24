@@ -28,18 +28,18 @@ Mandarin/Chinese Text to Speech based on statistical parametric speech synthesis
 
 ## 使用指南
 ### 1.环境与依赖
-环境:python3.6
-安装: `sudo ./tools/install_mtts.sh`
-使用方法: `python src/mtts.py txtfile wav_directory_path output_directory_path`
-结果: 生成label和forced align的textgrid文件在output_directory_path中，然后使用merlin即可合成语音，具体过程参见 [Mandarin_Voice](https://github.com/Jackiexiao/MTTS/tree/master/egs/mandarin_voice/s1)
-注意:目前仅能处理纯中文文本，不可包含阿拉伯数字，英文字母等非中文文本
+* 环境:python3.6
+* 安装: `sudo ./tools/install_mtts.sh`
+* 使用方法: `python src/mtts.py txtfile wav_directory_path output_directory_path`
+* 结果: 生成label和forced align的textgrid文件在output_directory_path中，然后使用merlin即可合成语音，具体过程参见 [Mandarin_Voice](https://github.com/Jackiexiao/MTTS/tree/master/egs/mandarin_voice/s1)
+* 注意:目前仅能处理纯中文文本，不可包含阿拉伯数字，英文字母等非中文文本
 
-txtfile文件内容（左边编号，右边纯中文文本，中间以空格隔开）
+**txtfile文件内容**（左边编号，右边纯中文文本，中间以空格隔开）
 ```
 A_01 这是一段文本
 A_02 这是第二段文本
 ```
-wav_directory（包含wav文件，文件命名需对应文本编号，采样率大于等于16khz）  
+**wav_directory内容**（包含wav文件，文件命名需对应文本编号，采样率大于等于16khz）  
 --A_01.wav  
 --A_02.wav  
 
