@@ -2,11 +2,15 @@
 from __future__ import unicode_literals
 import sys
 import re
-from pypinyin import pinyin, Style
+from pypinyin import pinyin, Style, load_phrases_dict
 
 consonant_list = ['b', 'p', 'm', 'f', 'd', 't', 'n', 'l', 'g', 'k',
                   'h', 'j', 'q', 'x', 'zh', 'ch', 'sh', 'r', 'z',
                   'c', 's', 'y', 'w']
+
+def _pre_pinyin_setting():
+    ''' fix pinyin error'''
+    load_phrases_dict({'嗯':[['ēn']]})
 
 
 def pinyinformat(syllabel):
@@ -54,6 +58,7 @@ def seprate_syllabel(syllabel):
 
 
 def txt2pinyin(txt):
+    _pre_pinyin_setting()
     phone_list = []
     '''
     if isinstance(txt, str):

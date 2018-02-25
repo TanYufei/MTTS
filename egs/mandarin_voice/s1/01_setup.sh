@@ -81,8 +81,6 @@ echo "" >> $global_config_file
 echo "HTKDIR=${merlin_dir}/tools/bin/htk" >> $global_config_file
 echo "" >> $global_config_file
 
-# TODO
-# check data 
 echo "Step 1:"
 echo "Merlin default voice settings configured in \"$global_config_file\""
 echo "Modify these params as per your data..."

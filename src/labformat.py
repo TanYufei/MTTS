@@ -120,7 +120,8 @@ def tree(words, rhythms, syllables, poses, phs_type=None):
                 phone=phone.rbrother
         assert phone is not None
         #assert phone.rbrother is None
-        if phs_type[-1] == 's':
+        #if phs_type[-1] == 's':
+        if phs_type[-1] in ['s', 'd']:
             phone.rbrother=LabNode(txt='sil', rhythm='ph')
             phone.rbrother.lbrother=phone
         return fphone
