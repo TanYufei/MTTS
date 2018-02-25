@@ -31,7 +31,7 @@ def _add_lab(txtlines, wav_dir_path):
         with open(lab_file, 'w') as oid:
             oid.write(' '.join(new_pinyin_list))
 
-def _txt_preprocess(txtfile):
+def _txt_preprocess(txtfile, output_path):
     # 去除所有标点符号(除非是韵律标注#1符号)，报错，如果txt中含有数字和字母(报错并跳过）
     with open(txtfile) as fid:
         txtlines = [x.strip() for x in fid.readlines()]
@@ -49,6 +49,10 @@ def _txt_preprocess(txtfile):
     if error_list:
         for item in error_list:
             print('line %s contain number and alphabet!!' % item)
+        with open(os.path.join(output_path, 'error.log'), 'a+') as fid:
+            for item in error_list:
+                fid.write('line %s contain number and alphabet!!  \n' % item)
+
     return valid_txtlines
 
 def _standard_sfs(csv_list):
@@ -104,7 +108,9 @@ def _textgrid2sfs(txtlines, wav_dir_path, output_path):
                 for item in total_list:
                     fid.write(' '.join(item) + '\n')
         else:
-            print('--Miss: ', textgrid_file)
+            print('--Miss: %s' % textgrid_file)
+            with open(os.path.join(output_path, 'error.log'), 'a+') as fid:
+                fid.write('--Miss: %s \n' % textgrid_file)
 
 
 def _sfs2label(txtlines, wav_dir_path, output_path):
@@ -114,16 +120,26 @@ def _sfs2label(txtlines, wav_dir_path, output_path):
 
     sfs_list = [x.replace('.sfs', '') for x in os.listdir(sfs_path)]
 
+    process_num = 0
+
     for line in txtlines:
         numstr, txt = line.split()
         if numstr in sfs_list:
+            process_num += 1
+            print('processing %s, file %s' % (process_num, numstr))
             sfs_file = os.path.join(sfs_path, numstr + '.sfs')
             label_file = os.path.join(label_path, numstr + '.lab')
 
-            label_line = txt2label(txt, sfsfile=sfs_file)
-            with open (label_file, 'w') as oid:
-                for item in label_line:
-                    oid.write(item + '\n')
+            try:
+                label_line = txt2label(txt, sfsfile=sfs_file)
+            except AssertionError:
+                print('AssertionError at %s' % numstr)
+                with open(os.path.join(output_path, 'error.log'), 'a+') as fid:
+                    fid.write('AssertionError at %s \n' % numstr)
+            else:
+                with open (label_file, 'w') as oid:
+                    for item in label_line:
+                        oid.write(item + '\n')
 
 def _delete_tmp_file(output_path):
     '''Delete tmp file like csv sfs'''
@@ -147,10 +163,10 @@ def main():
     parser.add_argument("output_path",
                         help="Full path to output directory, will be created if it doesn't exist")
     args = parser.parse_args()
-    txtlines = _txt_preprocess(args.txtfile)
 
     output_path = os.path.abspath(args.output_path)
     wav_dir_path = os.path.abspath(args.wav_dir_path)
+    txtlines = _txt_preprocess(args.txtfile, output_path)
 
     os.system('mkdir -p %s' % args.output_path)
     generate_label(txtlines, wav_dir_path, output_path)
