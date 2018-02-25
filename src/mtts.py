@@ -37,10 +37,10 @@ def _txt_preprocess(txtfile):
         txtlines = [x.strip() for x in fid.readlines()]
     valid_txtlines = []
     error_list = [] # line which contain number or alphabet
-    pattern = re.complie('(?!#(?=\d))[\W]')
+    pattern = re.compile('(?!#(?=\d))[\W]')
     for line in txtlines:
         num, txt = line.split(' ', 1)
-        if bool(re.search('[A-Za-z]', txt)) || bool(re.search('(?<!#)\d', txt)):
+        if bool(re.search('[A-Za-z]', txt)) or bool(re.search('(?<!#)\d', txt)):
             error_list.append(num)
         else:
             txt = pattern.sub('', txt)
@@ -104,7 +104,7 @@ def _textgrid2sfs(txtlines, wav_dir_path, output_path):
                 for item in total_list:
                     fid.write(' '.join(item) + '\n')
         else:
-            print('miss: ' + numstr + ' textgrid file')
+            print('--Miss: ', textgrid_file)
 
 
 def _sfs2label(txtlines, wav_dir_path, output_path):
